@@ -65,7 +65,7 @@ install_node() {
 
 install_pcdoc() {
   echo -e "  ${CYAN}[INFO]${RESET} Installing pcdoc globally..."
-  npm install -g github:FutureVisionMobDev/pcdoc
+  npm install -g github:FutureVisionMobDev/pcdoc --ignore-scripts
 }
 
 show_done() {

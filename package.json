@@ -10,7 +10,16 @@
     "start": "node bin/pcdoc.js",
     "fix": "node bin/pcdoc.js --fix"
   },
-  "keywords": ["cli", "pc", "health", "disk", "memory", "network", "doctor", "fix"],
+  "keywords": [
+    "cli",
+    "pc",
+    "health",
+    "disk",
+    "memory",
+    "network",
+    "doctor",
+    "fix"
+  ],
   "author": "FutureVisionMobDev",
   "license": "ISC",
   "repository": {
@@ -18,8 +27,12 @@
     "url": "https://github.com/FutureVisionMobDev/pcdoc.git"
   },
   "homepage": "https://github.com/FutureVisionMobDev/pcdoc#readme",
-  "bugs": { "url": "https://github.com/FutureVisionMobDev/pcdoc/issues" },
-  "engines": { "node": ">=18" },
+  "bugs": {
+    "url": "https://github.com/FutureVisionMobDev/pcdoc/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "type": "module",
   "dependencies": {
     "boxen": "^8.0.1",
@@ -29,7 +42,6 @@
     "figlet": "^1.11.0",
     "inquirer": "^14.0.2",
     "ora": "^9.4.1",
-    "speedtest-net": "^2.2.0",
     "systeminformation": "^5.31.11"
   }
 }
