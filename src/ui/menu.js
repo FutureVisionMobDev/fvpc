@@ -10,6 +10,14 @@ const CHECKS = [
   { name: `${chalk.red('🔥 CPU')}          — load, speed, temp, per-core`, value: 'cpu', checked: true },
   { name: `${chalk.green('🔋 Battery')}      — level, health, cycle count`, value: 'battery', checked: false },
   { name: `${chalk.white('⚡ Speed Test')}   — download / upload / ping (slow ~20s)`, value: 'speed', checked: false },
+  { name: `${chalk.blueBright('🪟 Windows OS')}   — version, activation, updates, uptime`, value: 'windows', checked: false },
+  { name: `${chalk.cyan('📧 Email')}        — Outlook, SMTP/IMAP ports, OST size`, value: 'email', checked: false },
+  { name: `${chalk.yellow('🗄  SMB/Cloud')}    — mapped drives, OneDrive, Teams cache`, value: 'smb', checked: false },
+  { name: `${chalk.magenta('🎨 Adobe')}        — CC process, license service, cache`, value: 'adobe', checked: false },
+  { name: `${chalk.white('👤 Accounts')}     — domain, profile size, GP, credentials`, value: 'accounts', checked: false },
+  { name: `${chalk.green('🖨  Printer')}      — installed printers, queue, default`, value: 'printer', checked: false },
+  { name: `${chalk.cyan('🔒 VPN')}          — VPN connections, tunnel adapters`, value: 'vpn', checked: false },
+  { name: `${chalk.red('🛡  Firewall')}      — firewall status, Defender, AV scan`, value: 'firewall', checked: false },
 ];
 
 export async function showMenu() {

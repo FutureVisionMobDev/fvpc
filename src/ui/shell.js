@@ -5,6 +5,7 @@ import { printSummary } from './report.js';
 import { fixCache } from '../fixes/cache.js';
 import { fixProcesses } from '../fixes/processes.js';
 import { fixDisk } from '../fixes/disk.js';
+import { checkForUpdate, printUpdateNotice, runUpdate, getLocalVersion } from '../utils/updater.js';
 
 const CHECK_MAP = {
   disk:      { label: 'Disk',           fn: () => import('../checks/disk.js').then(m => m.checkDisk()) },
@@ -15,6 +16,14 @@ const CHECK_MAP = {
   cpu:       { label: 'CPU',            fn: () => import('../checks/cpu.js').then(m => m.checkCpu()) },
   battery:   { label: 'Battery',        fn: () => import('../checks/battery.js').then(m => m.checkBattery()) },
   speed:     { label: 'Speed Test',     fn: () => import('../checks/speed.js').then(m => m.checkSpeed()) },
+  windows:   { label: 'Windows/macOS/Linux OS', fn: () => import('../checks/windows.js').then(m => m.checkWindows()) },
+  email:     { label: 'Email/Outlook',          fn: () => import('../checks/email.js').then(m => m.checkEmail()) },
+  smb:       { label: 'SMB/Cloud',              fn: () => import('../checks/smb.js').then(m => m.checkSmb()) },
+  adobe:     { label: 'Adobe/CC',               fn: () => import('../checks/adobe.js').then(m => m.checkAdobe()) },
+  accounts:  { label: 'Accounts',               fn: () => import('../checks/accounts.js').then(m => m.checkAccounts()) },
+  printer:   { label: 'Printers',               fn: () => import('../checks/printer.js').then(m => m.checkPrinter()) },
+  vpn:       { label: 'VPN',                    fn: () => import('../checks/vpn.js').then(m => m.checkVpn()) },
+  firewall:  { label: 'Firewall/Security',      fn: () => import('../checks/firewall.js').then(m => m.checkFirewall()) },
 };
 
 const ALL_CHECKS = ['disk', 'memory', 'network', 'cache', 'processes', 'cpu', 'battery'];
@@ -28,6 +37,8 @@ function printHelp() {
   console.log(row('check all',             'run all standard checks one by one'));
   console.log(row('fix',                   'auto-fix last scan issues'));
   console.log(row('summary',               'reprint last scan summary'));
+  console.log(row('update',                'check for & install latest version'));
+  console.log(row('version',               'show current version'));
   console.log(row('clear',                 'clear the screen'));
   console.log(row('help',                  'show this list'));
   console.log(row('exit  /  quit',         'leave PC Doctor'));
@@ -115,6 +126,7 @@ async function runFix(lastResults) {
   } else {
     console.log(chalk.green.bold(`\n  Fixed ${fixed.length} item(s). Run check all to verify.\n`));
   }
+  return fixed;
 }
 
 export async function startShell() {
@@ -128,7 +140,9 @@ export async function startShell() {
       const completions = [
         'check disk', 'check memory', 'check network', 'check cache',
         'check processes', 'check cpu', 'check battery', 'check speed',
-        'check all', 'fix', 'summary', 'clear', 'help', 'exit', 'quit',
+        'check windows', 'check email', 'check smb', 'check adobe', 'check accounts',
+        'check printer', 'check vpn', 'check firewall',
+        'check all', 'fix', 'summary', 'update', 'version', 'clear', 'help', 'exit', 'quit',
       ];
       const hits = completions.filter((c) => c.startsWith(line));
       return [hits.length ? hits : completions, line];
@@ -171,9 +185,24 @@ export async function startShell() {
       return;
     }
 
+    if (input === 'version') {
+      console.log(chalk.cyan(`\n  pcdoc v${getLocalVersion()}\n`));
+      rl.prompt();
+      return;
+    }
+
+    if (input === 'update') {
+      rl.pause();
+      await runUpdate();
+      rl.resume();
+      rl.prompt();
+      return;
+    }
+
     if (input === 'fix') {
       rl.pause();
       await runFix(lastResults);
+      lastResults = []; // reset so fix doesn't re-run on stale results
       rl.resume();
       rl.prompt();
       return;

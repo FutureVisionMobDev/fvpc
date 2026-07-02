@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import chalk from 'chalk';
+import ora from 'ora';
 import { printSectionHeader, printResult, printSectionFooter } from '../ui/report.js';
 
 const CACHE_DIRS = {
@@ -26,21 +27,39 @@ const CACHE_DIRS = {
   ],
 };
 
-function dirSizeMB(dirPath) {
+function formatSize(bytes) {
+  if (bytes >= 1024 * 1024 * 1024) return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+  if (bytes >= 1024 * 1024)        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  if (bytes >= 1024)               return (bytes / 1024).toFixed(0) + ' KB';
+  return bytes + ' B';
+}
+
+async function dirSizeBytes(dirPath, onProgress) {
   try {
     let total = 0;
-    const walk = (p) => {
-      const entries = fs.readdirSync(p, { withFileTypes: true });
+    let fileCount = 0;
+    const walk = async (p) => {
+      let entries;
+      try { entries = fs.readdirSync(p, { withFileTypes: true }); } catch { return; }
       for (const e of entries) {
         const full = path.join(p, e.name);
         try {
-          if (e.isDirectory()) walk(full);
-          else total += fs.statSync(full).size;
+          if (e.isDirectory()) {
+            await walk(full);
+          } else {
+            total += fs.statSync(full).size;
+            fileCount++;
+            // yield every 200 files so spinner can animate
+            if (fileCount % 200 === 0) {
+              if (onProgress) onProgress(total, fileCount);
+              await new Promise((r) => setImmediate(r));
+            }
+          }
         } catch {}
       }
     };
-    walk(dirPath);
-    return (total / 1e6).toFixed(1);
+    await walk(dirPath);
+    return total;
   } catch {
     return null;
   }
@@ -54,26 +73,44 @@ export async function checkCache() {
   const results = [];
   let totalMB = 0;
 
+  const spinner = ora({
+    color: 'cyan',
+    spinner: 'dots',
+  }).start();
+
   for (const { label, dir } of dirs) {
     if (!fs.existsSync(dir)) continue;
-    const mb = dirSizeMB(dir);
-    if (mb === null) continue;
 
-    const mbNum = parseFloat(mb);
+    spinner.text = chalk.dim(`Scanning ${label}...`);
+    await new Promise((r) => setImmediate(r));
+
+    const bytes = await dirSizeBytes(dir, (soFar, files) => {
+      spinner.text = chalk.dim(`Scanning ${label}... `) + chalk.cyan(`${files.toLocaleString()} files / ${formatSize(soFar)}`);
+    });
+    if (bytes === null) continue;
+
+    const mbNum = bytes / (1024 * 1024);
     totalMB += mbNum;
 
     let status = 'ok';
     if (mbNum >= 2000) status = 'critical';
     else if (mbNum >= 500) status = 'warn';
 
-    printResult(label, chalk.white(`${mb} MB`), status);
-    results.push({ name: label, status, info: `${mb} MB`, dir, mbNum });
+    const sizeLabel = formatSize(bytes);
+
+    spinner.stop();
+    printResult(label, chalk.white(sizeLabel), status);
+    spinner.start();
+
+    results.push({ name: label, status, info: sizeLabel, dir, mbNum });
   }
 
-  const totalGB = (totalMB / 1024).toFixed(2);
+  spinner.stop();
+
+  const totalLabel = formatSize(totalMB * 1024 * 1024);
   printResult(
     'Total cache',
-    chalk.white(`${totalGB} GB`),
+    chalk.white(totalLabel),
     totalMB >= 5000 ? 'critical' : totalMB >= 1000 ? 'warn' : 'ok'
   );
   printSectionFooter();

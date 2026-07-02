@@ -14,9 +14,13 @@ export function renderWelcome() {
     '',
     '  ' + chalk.green('▶') + '  ' + chalk.white('Your personal PC health companion'),
     '  ' + chalk.green('▶') + '  ' + chalk.white('Checks disk · memory · network · cache · processes'),
+    '  ' + chalk.green('▶') + '  ' + chalk.white('Email · SMB · Adobe · OS · Accounts · Printer · VPN · Firewall'),
     '  ' + chalk.green('▶') + '  ' + chalk.white('Fixes issues automatically with ') + chalk.yellow('--fix'),
     '',
     chalk.dim('  Run ') + chalk.cyan('pcdoc --help') + chalk.dim(' to see all commands'),
+    '',
+    chalk.dim('  ─────────────────────────────────────────────────────'),
+    '  ' + chalk.dim('Made by ') + chalk.cyan.bold('CyrsTrstn') + chalk.dim('  ·  Future Vision Mobile Dev'),
   ].join('\n');
 
   console.log(
@@ -29,11 +33,11 @@ export function renderWelcome() {
   );
 
   const meta =
-    chalk.dim('System: ') + chalk.white(os.hostname()) +
+    chalk.dim('  Host: ') + chalk.white(os.hostname()) +
     chalk.dim('   OS: ') + chalk.white(`${os.type()} ${os.release()}`) +
     chalk.dim('   Uptime: ') + chalk.white(formatUptime(os.uptime()));
 
-  console.log('  ' + meta + '\n');
+  console.log(meta + '\n');
 }
 
 function formatUptime(seconds) {
