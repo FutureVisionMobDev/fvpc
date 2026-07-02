@@ -23,7 +23,7 @@ export function getLocalVersion() {
 
 export function fetchRemoteVersion(timeoutMs = 5000) {
   return new Promise((resolve) => {
-    const url = 'https://raw.githubusercontent.com/FutureVisionMobDev/pcdoc/main/package.json';
+    const url = 'https://raw.githubusercontent.com/FutureVisionMobDev/fvpc/main/package.json';
     const req = https.get(url, { timeout: timeoutMs }, (res) => {
       let data = '';
       res.on('data', (chunk) => { data += chunk; });
@@ -76,8 +76,8 @@ export function printUpdateNotice(update) {
   console.log(chalk.yellow('  └────────────────────────────────────────────────────┘\n'));
 }
 
-const UPDATE_SOURCE = 'github:FutureVisionMobDev/pcdoc'; // update after GitHub repo rename
-const UPDATE_SOURCE_URL = 'https://github.com/FutureVisionMobDev/pcdoc';
+const UPDATE_SOURCE = 'github:FutureVisionMobDev/fvpc';
+const UPDATE_SOURCE_URL = 'https://github.com/FutureVisionMobDev/fvpc';
 
 export async function runUpdate() {
   console.log(chalk.cyan('\n  FVPC Update\n'));

@@ -25,11 +25,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/FutureVisionMobDev/pcdoc.git"
+    "url": "https://github.com/FutureVisionMobDev/fvpc.git"
   },
-  "homepage": "https://github.com/FutureVisionMobDev/pcdoc#readme",
+  "homepage": "https://github.com/FutureVisionMobDev/fvpc#readme",
   "bugs": {
-    "url": "https://github.com/FutureVisionMobDev/pcdoc/issues"
+    "url": "https://github.com/FutureVisionMobDev/fvpc/issues"
   },
   "engines": {
     "node": ">=18"

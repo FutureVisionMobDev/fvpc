@@ -1,9 +1,10 @@
-# 🩺 PC Doctor
+# FVPC — Future Vision PC
 
-> A real interactive CLI that checks your PC's health — disk, memory, network, CPU, cache, processes, battery, and internet speed — and can automatically fix common issues.
+> IT-grade PC health check and auto-fix CLI by **Future Vision Mobile Dev**.  
+> Diagnoses disk, memory, network, CPU, cache, email, Adobe, SMB, VPN, firewall, and more — then fixes what it can.
 
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18-brightgreen)](https://nodejs.org)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blue)]()
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)]()
 [![License](https://img.shields.io/badge/license-ISC-lightgrey)]()
 
 ---
@@ -12,22 +13,17 @@
 
 ### Windows (PowerShell)
 ```powershell
-irm https://raw.githubusercontent.com/FutureVisionMobDev/pcdoc/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/FutureVisionMobDev/fvpc/main/install.ps1 | iex
 ```
 
 ### Linux / macOS (bash)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/FutureVisionMobDev/pcdoc/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/FutureVisionMobDev/fvpc/main/install.sh | bash
 ```
 
 ### Via npm (any platform)
 ```bash
-npm install -g github:FutureVisionMobDev/pcdoc
-```
-
-### Try without installing (npx)
-```bash
-npx github:FutureVisionMobDev/pcdoc
+npm install -g github:FutureVisionMobDev/fvpc
 ```
 
 > **Requires Node.js 18+** — [Download here](https://nodejs.org)
@@ -37,41 +33,57 @@ npx github:FutureVisionMobDev/pcdoc
 ## 🚀 Usage
 
 ### Interactive shell (recommended)
-Just run `pcdoc` — an interactive prompt opens where you type commands:
+Run `fvpc` — an interactive prompt opens where you type commands:
 
 ```
-pcdoc ›  check disk
-pcdoc ›  check memory
-pcdoc ›  check all
-pcdoc ›  fix
-pcdoc ›  summary
-pcdoc ›  exit
+fvpc ›  check disk
+fvpc ›  check email
+fvpc ›  check all
+fvpc ›  fix
+fvpc ›  summary
+fvpc ›  update
+fvpc ›  exit
 ```
 
 Press **Tab** to autocomplete commands.
 
-### One-shot flags (for scripting / CI)
+### One-shot flags (scripting / CI)
 ```bash
-pcdoc --all              # run all checks and exit
-pcdoc --disk --memory    # run specific checks
-pcdoc --speed            # internet speed test
-pcdoc --all --fix        # run all + auto-fix issues
+fvpc --all               # run all checks and exit
+fvpc --disk --memory     # run specific checks
+fvpc --email             # email / Outlook diagnostics
+fvpc --firewall          # firewall + Defender status
+fvpc --all --fix         # run all + auto-fix
+fvpc --update            # update to latest version
 ```
 
 ---
 
 ## 🔍 What It Checks
 
+### Hardware & System
 | Check | What it looks at |
 |---|---|
 | `disk` | Usage % per drive, free space, warns at 75%+ |
-| `memory` | RAM active usage, swap, warns at 75%+ |
-| `network` | Internet connectivity, active interfaces, dropped packets |
-| `cache` | Windows Temp, npm, pip, Chrome/Edge cache sizes |
-| `processes` | Zombie processes, high CPU/MEM hogs |
-| `cpu` | Load %, clock speed, per-core breakdown, temperature |
+| `memory` | RAM usage, swap, warns at 75%+ |
+| `network` | Internet connectivity, interfaces, dropped packets |
+| `cache` | Windows Temp, npm, pip, Chrome/Edge cache (live progress) |
+| `processes` | Zombie processes, high CPU/RAM hogs |
+| `cpu` | Load %, clock speed, per-core, temperature |
 | `battery` | Level %, voltage, cycle count, health % |
-| `speed` | Download/upload Mbps, ping ms, jitter |
+| `speed` | Download/upload Mbps, ping, jitter |
+
+### IT Support (Windows / macOS / Linux)
+| Check | What it looks at |
+|---|---|
+| `windows` | OS edition, build, activation, pending updates, uptime, pagefile |
+| `email` | Outlook process, SMTP/IMAP port reachability, OST/PST folder size |
+| `smb` | Mapped drives (`net use`), OneDrive sync, Teams & SharePoint cache |
+| `adobe` | Creative Cloud process, licensing service, log errors, CC cache size |
+| `accounts` | Domain join, Azure AD/Entra, profile size, Group Policy, credentials |
+| `printer` | Installed printers, default printer, print queue stuck jobs |
+| `vpn` | VPN profiles, TAP/TUN/utun adapters, VPN client processes |
+| `firewall` | Firewall profiles, Windows Defender, real-time protection, Gatekeeper (Mac) |
 
 ---
 
@@ -79,8 +91,8 @@ pcdoc --all --fix        # run all + auto-fix issues
 
 | Issue | Fix applied |
 |---|---|
-| Oversized caches | Clears Temp, npm cache, pip cache, browser cache |
-| Zombie processes | Kills via `taskkill /F` (Windows) or `SIGKILL` (Linux/Mac) |
+| Oversized caches | Clears Temp, npm, pip, browser cache (safe allowlist only, locked files skipped) |
+| Zombie processes | Kills via `taskkill /F` (Windows) or `SIGKILL` (Mac/Linux) |
 | Low disk space | Runs `cleanmgr`, empties Recycle Bin (Windows) / `apt-get clean` (Linux) |
 
 ---
@@ -89,13 +101,15 @@ pcdoc --all --fix        # run all + auto-fix issues
 
 | Command | Description |
 |---|---|
-| `check <name>` | Run a single check (`disk`, `memory`, `network`, `cache`, `processes`, `cpu`, `battery`, `speed`) |
-| `check all` | Run all standard checks one by one with spinners |
-| `fix` | Auto-fix issues from the last scan |
-| `summary` | Reprint the last scan summary table |
+| `check <name>` | Run a single check |
+| `check all` | Run all standard checks with live spinners |
+| `fix` | Auto-fix issues from last scan |
+| `summary` | Reprint last scan summary with timestamp |
+| `update` | Check for & install latest version |
+| `version` | Show installed version |
 | `clear` | Clear the screen |
 | `help` | Show command list |
-| `exit` / `quit` | Leave PC Doctor |
+| `exit` / `quit` | Leave FVPC |
 
 ---
 
@@ -104,82 +118,83 @@ pcdoc --all --fix        # run all + auto-fix issues
 | Flag | Description |
 |---|---|
 | `--all` | Run all checks non-interactively |
-| `--disk` | Disk check only |
-| `--memory` | Memory check only |
-| `--network` | Network check only |
-| `--cache` | Cache check only |
-| `--processes` | Process check only |
-| `--cpu` | CPU check only |
-| `--battery` | Battery check only |
-| `--speed` | Speed test only |
+| `--disk` | Disk check |
+| `--memory` | Memory check |
+| `--network` | Network check |
+| `--cache` | Cache check |
+| `--processes` | Process check |
+| `--cpu` | CPU check |
+| `--battery` | Battery check |
+| `--speed` | Speed test |
+| `--windows` | Windows / macOS / Linux OS health |
+| `--email` | Email & Outlook diagnostics |
+| `--smb` | SMB drives & cloud sync |
+| `--adobe` | Adobe CC license & process |
+| `--accounts` | Domain, profile, GP, credentials |
+| `--printer` | Printers & print queue |
+| `--vpn` | VPN connections & adapters |
+| `--firewall` | Firewall & AV status |
 | `--fix` | Auto-fix after checks |
+| `--update` | Update to latest version |
 | `--no-welcome` | Skip the welcome banner |
 | `--help` | Show help |
 | `--version` | Show version |
 
 ---
 
-## 🖼 Screenshots
+## 🏗 Project Structure
 
-### Welcome banner (first run)
 ```
-╔══════════════════════════════════════════════════════╗
-║  ██████╗  ██████╗     ██████╗  ██████╗  ██████╗     ║
-║  ██╔══██╗██╔════╝    ██╔══██╗██╔═══██╗██╔════╝     ║
-║  ██████╔╝██║         ██║  ██║██║   ██║██║          ║
-║  ██╔═══╝ ██║         ██║  ██║██║   ██║██║          ║
-║  ██║     ╚██████╗    ██████╔╝╚██████╔╝╚██████╗     ║
-║  ╚═╝      ╚═════╝    ╚═════╝  ╚═════╝  ╚═════╝     ║
-║                                                      ║
-║  ▶  Your personal PC health companion               ║
-║  ▶  Checks disk · memory · network · cache          ║
-║  ▶  Fixes issues automatically with --fix           ║
-╚══════════════════════════════════════════════════════╝
-```
-
-### Check output
-```
-┌─ DISK ──────────────────────────────────────────────
-│ C: (1023GB)           ██████░░░░░░░░░░░░░░ 32%
-│   Free space          695 GB  ✔ OK  (32% used)
-└─────────────────────────────────────────────────────
-
-┌─ MEMORY ────────────────────────────────────────────
-│ RAM (16.8GB)          ███████████████░░░░░ 77%
-│   Used                12.9 GB  ⚠ WARN  (3.9GB free)
-└─────────────────────────────────────────────────────
+fvpc/
+├── bin/
+│   └── fvpc.js             # CLI entry point
+├── src/
+│   ├── checks/
+│   │   ├── disk.js         # Disk usage
+│   │   ├── memory.js       # RAM & swap
+│   │   ├── network.js      # Network & DNS
+│   │   ├── cache.js        # Cache sizes (live progress)
+│   │   ├── processes.js    # Process health
+│   │   ├── cpu.js          # CPU load & temp
+│   │   ├── battery.js      # Battery health
+│   │   ├── speed.js        # Internet speed
+│   │   ├── windows.js      # OS health (Win/Mac/Linux)
+│   │   ├── email.js        # Outlook & email ports
+│   │   ├── smb.js          # SMB drives & OneDrive
+│   │   ├── adobe.js        # Adobe CC & licensing
+│   │   ├── accounts.js     # Domain, profile, credentials
+│   │   ├── printer.js      # Printers & print queue
+│   │   ├── vpn.js          # VPN connections
+│   │   └── firewall.js     # Firewall & Defender
+│   ├── fixes/
+│   │   ├── cache.js        # Safe cache clearing (allowlisted)
+│   │   ├── processes.js    # Kill zombie procs
+│   │   └── disk.js         # Disk cleanup
+│   ├── ui/
+│   │   ├── welcome.js      # FVPC banner
+│   │   ├── report.js       # Tables, bars, scan timestamp
+│   │   ├── menu.js         # Interactive check selector
+│   │   └── shell.js        # Interactive REPL shell
+│   └── utils/
+│       ├── platform.js     # Cross-platform helpers (Win/Mac/Linux)
+│       ├── updater.js      # Version check & auto-update
+│       └── firstRun.js     # First-run detection
+├── install.ps1             # Windows one-click installer
+├── install.sh              # Linux/macOS one-click installer
+└── package.json
 ```
 
 ---
 
-## 🏗 Project Structure
+## 🔄 Updating
 
+```bash
+fvpc --update
+# or inside the shell:
+fvpc ›  update
 ```
-pcdoc/
-├── bin/
-│   └── pcdoc.js          # CLI entry point
-├── src/
-│   ├── checks/
-│   │   ├── disk.js       # Disk usage check
-│   │   ├── memory.js     # RAM & swap check
-│   │   ├── network.js    # Network & DNS check
-│   │   ├── cache.js      # Cache size check
-│   │   ├── processes.js  # Process health check
-│   │   ├── cpu.js        # CPU load & temp check
-│   │   ├── battery.js    # Battery health check
-│   │   └── speed.js      # Internet speed test
-│   ├── fixes/
-│   │   ├── cache.js      # Clear cache dirs
-│   │   ├── processes.js  # Kill zombie procs
-│   │   └── disk.js       # Disk cleanup tools
-│   └── ui/
-│       ├── welcome.js    # ASCII banner
-│       ├── report.js     # Tables, bars, icons
-│       └── shell.js      # Interactive REPL shell
-├── install.ps1           # Windows one-click installer
-├── install.sh            # Linux/macOS one-click installer
-└── package.json
-```
+
+Shows exact install source and requires confirmation before installing. Postinstall hooks are always disabled (`--ignore-scripts`).
 
 ---
 
@@ -187,8 +202,8 @@ pcdoc/
 
 1. Fork the repo
 2. `npm install`
-3. `node bin/pcdoc.js` to run locally
-4. Add a new check in `src/checks/`, wire it in `src/ui/shell.js` and `bin/pcdoc.js`
+3. `node bin/fvpc.js` to run locally
+4. Add a check in `src/checks/`, wire it in `src/ui/shell.js`, `src/ui/menu.js`, and `bin/fvpc.js`
 
 ---
 
