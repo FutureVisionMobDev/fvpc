@@ -38,7 +38,7 @@ export function printSectionFooter() {
   console.log(chalk.cyan('└' + '─'.repeat(55)));
 }
 
-export function printSummary(results) {
+export function printSummary(results, scanTime = null) {
   const table = new Table({
     head: [
       chalk.cyan.bold('Check'),
@@ -57,6 +57,24 @@ export function printSummary(results) {
     ]);
   }
 
+  const ts = scanTime || new Date();
+  const timeStr = ts.toLocaleString(undefined, {
+    month: 'short', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+  });
+
+  const ok       = results.filter(r => r.status === 'ok').length;
+  const warnings = results.filter(r => r.status === 'warn').length;
+  const critical = results.filter(r => r.status === 'critical').length;
+
   console.log('\n' + chalk.cyan.bold('  ═══ SUMMARY ═══'));
   console.log(table.toString());
+  console.log(
+    chalk.dim('  Scanned: ') + chalk.white(timeStr) +
+    chalk.dim('   checks: ') + chalk.white(String(results.length)) +
+    chalk.dim('  ') + chalk.green(`✔ ${ok}`) +
+    chalk.dim('  ') + chalk.yellow(`⚠ ${warnings}`) +
+    chalk.dim('  ') + chalk.red(`✖ ${critical}`) +
+    '\n'
+  );
 }

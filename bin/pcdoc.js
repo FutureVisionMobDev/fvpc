@@ -131,6 +131,7 @@ Inside the shell:
       : specificFlags.filter((f) => opts[f]);
 
     let allResults = [];
+    const scanTime = new Date();
 
     for (const name of toRun) {
       const spin = ora({
@@ -148,7 +149,7 @@ Inside the shell:
       }
     }
 
-    printSummary(allResults);
+    printSummary(allResults, scanTime);
 
     const issues = allResults.filter((r) => r.status === 'warn' || r.status === 'critical');
 

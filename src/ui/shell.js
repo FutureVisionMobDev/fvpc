@@ -152,6 +152,7 @@ export async function startShell() {
   rl.prompt();
 
   let lastResults = [];
+  let lastScanTime = null;
 
   rl.on('line', async (raw) => {
     const input = raw.trim().toLowerCase();
@@ -179,7 +180,7 @@ export async function startShell() {
       if (lastResults.length === 0) {
         console.log(chalk.yellow('  No scan results yet. Run a check first.\n'));
       } else {
-        printSummary(lastResults);
+        printSummary(lastResults, lastScanTime);
       }
       rl.prompt();
       return;
@@ -210,8 +211,9 @@ export async function startShell() {
 
     if (input === 'check all') {
       rl.pause();
+      lastScanTime = new Date();
       lastResults = await runAllChecks();
-      printSummary(lastResults);
+      printSummary(lastResults, lastScanTime);
       const issues = lastResults.filter((r) => r.status === 'warn' || r.status === 'critical');
       if (issues.length > 0) {
         console.log(chalk.yellow(`\n  ${issues.length} issue(s) found. Type fix to auto-fix.\n`));
@@ -226,6 +228,7 @@ export async function startShell() {
     if (input.startsWith('check ')) {
       const name = input.slice(6).trim();
       rl.pause();
+      lastScanTime = new Date();
       lastResults = await runCheck(name, lastResults);
       const issues = lastResults.filter((r) => r.status === 'warn' || r.status === 'critical');
       if (issues.length > 0) {
