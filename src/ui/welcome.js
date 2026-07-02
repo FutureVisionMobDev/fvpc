@@ -9,8 +9,14 @@ export function renderWelcome() {
     horizontalLayout: 'default',
   });
 
+  // Apply chalk per-line so boxen can measure each line width correctly
+  const coloredBanner = banner
+    .split('\n')
+    .map(l => chalk.cyan.bold(l))
+    .join('\n');
+
   const lines = [
-    chalk.cyan.bold(banner),
+    coloredBanner,
     '',
     '  ' + chalk.green('▶') + '  ' + chalk.white('Future Vision PC — health check & auto-fix CLI'),
     '  ' + chalk.green('▶') + '  ' + chalk.white('Disk · Memory · Network · Cache · CPU · Processes'),
