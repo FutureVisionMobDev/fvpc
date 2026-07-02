@@ -4,7 +4,7 @@ import boxen from 'boxen';
 import os from 'os';
 
 export function renderWelcome() {
-  const banner = figlet.textSync('PC  DOCTOR', {
+  const banner = figlet.textSync('FVPC', {
     font: 'ANSI Shadow',
     horizontalLayout: 'default',
   });
@@ -12,12 +12,12 @@ export function renderWelcome() {
   const lines = [
     chalk.cyan.bold(banner),
     '',
-    '  ' + chalk.green('▶') + '  ' + chalk.white('Your personal PC health companion'),
-    '  ' + chalk.green('▶') + '  ' + chalk.white('Checks disk · memory · network · cache · processes'),
+    '  ' + chalk.green('▶') + '  ' + chalk.white('Future Vision PC — health check & auto-fix CLI'),
+    '  ' + chalk.green('▶') + '  ' + chalk.white('Disk · Memory · Network · Cache · CPU · Processes'),
     '  ' + chalk.green('▶') + '  ' + chalk.white('Email · SMB · Adobe · OS · Accounts · Printer · VPN · Firewall'),
     '  ' + chalk.green('▶') + '  ' + chalk.white('Fixes issues automatically with ') + chalk.yellow('--fix'),
     '',
-    chalk.dim('  Run ') + chalk.cyan('pcdoc --help') + chalk.dim(' to see all commands'),
+    chalk.dim('  Run ') + chalk.cyan('fvpc --help') + chalk.dim(' to see all commands'),
     '',
     chalk.dim('  ─────────────────────────────────────────────────────'),
     '  ' + chalk.dim('Made by ') + chalk.cyan.bold('CyrsTrstn') + chalk.dim('  ·  Future Vision Mobile Dev'),

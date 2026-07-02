@@ -41,7 +41,7 @@ function printHelp() {
   console.log(row('version',               'show current version'));
   console.log(row('clear',                 'clear the screen'));
   console.log(row('help',                  'show this list'));
-  console.log(row('exit  /  quit',         'leave PC Doctor'));
+  console.log(row('exit  /  quit',         'leave FVPC'));
   console.log(chalk.cyan('  └─────────────────────────────────────────────────┘'));
 
   console.log('\n' + chalk.cyan.bold('  ┌─ AVAILABLE CHECKS ──────────────────────────────┐'));
@@ -135,7 +135,7 @@ export async function startShell() {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: chalk.cyan('pcdoc') + chalk.dim(' › ') ,
+    prompt: chalk.cyan('fvpc') + chalk.dim(' › ') ,
     completer: (line) => {
       const completions = [
         'check disk', 'check memory', 'check network', 'check cache',
@@ -159,7 +159,7 @@ export async function startShell() {
     if (!input) { rl.prompt(); return; }
 
     if (input === 'exit' || input === 'quit') {
-      console.log(chalk.cyan('\n  Goodbye! Stay healthy.\n'));
+      console.log(chalk.cyan('\n  FVPC out. Stay healthy.\n'));
       rl.close();
       process.exit(0);
     }

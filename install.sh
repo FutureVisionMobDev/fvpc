@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# PC Doctor - Linux/macOS Installer
-# Run with: curl -fsSL https://raw.githubusercontent.com/FutureVisionMobDev/pcdoc/main/install.sh | bash
+# FVPC - Linux/macOS Installer
+# Run with: curl -fsSL https://raw.githubusercontent.com/FutureVisionMobDev/fvpc/main/install.sh | bash
 
 set -e
 
@@ -20,7 +20,7 @@ print_header() {
   echo -e "${CYAN} |  __/| |___   | |_| | (_) | (__| || (_) | |   ${RESET}"
   echo -e "${CYAN} |_|    \____|  |____/ \___/ \___|\__\___/|_|   ${RESET}"
   echo ""
-  echo -e "${WHITE}  Installing PC Doctor...${RESET}"
+  echo -e "${WHITE}  Installing FVPC...${RESET}"
   echo ""
 }
 
@@ -58,27 +58,27 @@ install_node() {
   else
     echo -e "  ${RED}[ERROR]${RESET} Cannot auto-install Node.js."
     echo -e "  Please install Node.js v18+ from ${WHITE}https://nodejs.org${RESET} and rerun:"
-    echo -e "  ${CYAN}curl -fsSL https://raw.githubusercontent.com/FutureVisionMobDev/pcdoc/main/install.sh | bash${RESET}"
+    echo -e "  ${CYAN}curl -fsSL https://raw.githubusercontent.com/FutureVisionMobDev/fvpc/main/install.sh | bash${RESET}"
     exit 1
   fi
 }
 
-install_pcdoc() {
-  echo -e "  ${CYAN}[INFO]${RESET} Installing pcdoc globally..."
-  npm install -g github:FutureVisionMobDev/pcdoc --ignore-scripts
+install_fvpc() {
+  echo -e "  ${CYAN}[INFO]${RESET} Installing fvpc globally..."
+  npm install -g github:FutureVisionMobDev/fvpc --ignore-scripts
 }
 
 show_done() {
   echo ""
   echo -e "  ${GREEN}====================================${RESET}"
-  echo -e "  ${GREEN} PC Doctor installed successfully!${RESET}"
+  echo -e "  ${GREEN} FVPC installed successfully!${RESET}"
   echo -e "  ${GREEN}====================================${RESET}"
   echo ""
   echo -e "  ${WHITE}Run it now:${RESET}"
-  echo -e "    ${CYAN}pcdoc${RESET}              ${DIM}# interactive shell${RESET}"
-  echo -e "    ${CYAN}pcdoc --all${RESET}        ${DIM}# run all checks${RESET}"
-  echo -e "    ${CYAN}pcdoc --all --fix${RESET}  ${DIM}# run all + auto-fix${RESET}"
-  echo -e "    ${CYAN}pcdoc --help${RESET}       ${DIM}# show all options${RESET}"
+  echo -e "    ${CYAN}fvpc${RESET}              ${DIM}# interactive shell${RESET}"
+  echo -e "    ${CYAN}fvpc --all${RESET}        ${DIM}# run all checks${RESET}"
+  echo -e "    ${CYAN}fvpc --all --fix${RESET}  ${DIM}# run all + auto-fix${RESET}"
+  echo -e "    ${CYAN}fvpc --help${RESET}       ${DIM}# show all options${RESET}"
   echo ""
 }
 
@@ -88,5 +88,5 @@ if ! check_node; then
   install_node
 fi
 
-install_pcdoc
+install_fvpc
 show_done

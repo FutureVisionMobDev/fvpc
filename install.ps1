@@ -1,5 +1,5 @@
-# PC Doctor - Windows Installer
-# Run with: irm https://raw.githubusercontent.com/FutureVisionMobDev/pcdoc/main/install.ps1 | iex
+# FVPC - Windows Installer
+# Run with: irm https://raw.githubusercontent.com/FutureVisionMobDev/fvpc/main/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
 
@@ -11,7 +11,7 @@ function Write-Header {
     Write-Host " |  __/| |___   | |_| | (_) | (__| || (_) | |   " -ForegroundColor Cyan
     Write-Host " |_|    \____|  |____/ \___/ \___|\__\___/|_|   " -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "  PC Doctor Installer" -ForegroundColor White
+    Write-Host "  FVPC Installer" -ForegroundColor White
     Write-Host ""
 }
 
@@ -76,7 +76,7 @@ function Ensure-Node {
         Write-Host ""
         Write-Host "  [ERROR] Could not install Node.js automatically." -ForegroundColor Red
         Write-Host "  Please install manually from https://nodejs.org then rerun:" -ForegroundColor White
-        Write-Host "  irm https://raw.githubusercontent.com/FutureVisionMobDev/pcdoc/main/install.ps1 | iex" -ForegroundColor Cyan
+        Write-Host "  irm https://raw.githubusercontent.com/FutureVisionMobDev/fvpc/main/install.ps1 | iex" -ForegroundColor Cyan
         exit 1
     }
 
@@ -93,11 +93,11 @@ function Ensure-Node {
     }
 }
 
-function Install-PcDoc {
-    Write-Host "  [INFO] Installing pcdoc..." -ForegroundColor Cyan
-    npm install -g github:FutureVisionMobDev/pcdoc --ignore-scripts
+function Install-fvpc {
+    Write-Host "  [INFO] Installing fvpc..." -ForegroundColor Cyan
+    npm install -g github:FutureVisionMobDev/fvpc --ignore-scripts
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "  [ERROR] pcdoc install failed." -ForegroundColor Red
+        Write-Host "  [ERROR] fvpc install failed." -ForegroundColor Red
         exit 1
     }
 }
@@ -105,18 +105,18 @@ function Install-PcDoc {
 function Show-Done {
     Write-Host ""
     Write-Host "  ====================================" -ForegroundColor Green
-    Write-Host "   PC Doctor installed successfully! " -ForegroundColor Green
+    Write-Host "   FVPC installed successfully! " -ForegroundColor Green
     Write-Host "  ====================================" -ForegroundColor Green
     Write-Host ""
     Write-Host "  Run it:" -ForegroundColor White
-    Write-Host "    pcdoc              " -NoNewline; Write-Host "# interactive shell" -ForegroundColor DarkGray
-    Write-Host "    pcdoc --all        " -NoNewline; Write-Host "# run all checks"    -ForegroundColor DarkGray
-    Write-Host "    pcdoc --all --fix  " -NoNewline; Write-Host "# run all + fix"     -ForegroundColor DarkGray
-    Write-Host "    pcdoc --help       " -NoNewline; Write-Host "# show all options"  -ForegroundColor DarkGray
+    Write-Host "    fvpc              " -NoNewline; Write-Host "# interactive shell" -ForegroundColor DarkGray
+    Write-Host "    fvpc --all        " -NoNewline; Write-Host "# run all checks"    -ForegroundColor DarkGray
+    Write-Host "    fvpc --all --fix  " -NoNewline; Write-Host "# run all + fix"     -ForegroundColor DarkGray
+    Write-Host "    fvpc --help       " -NoNewline; Write-Host "# show all options"  -ForegroundColor DarkGray
     Write-Host ""
 }
 
 Write-Header
 Ensure-Node
-Install-PcDoc
+Install-fvpc
 Show-Done

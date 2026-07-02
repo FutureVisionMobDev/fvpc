@@ -54,7 +54,7 @@ const ALL_NON_INTERACTIVE = ['disk', 'memory', 'network', 'cache', 'processes', 
 const program = new Command();
 
 program
-  .name('pcdoc')
+  .name('fvpc')
   .description('PC Doctor — health check and auto-fix CLI for your machine')
   .version('1.0.0')
   .option('--fix',        'auto-fix issues (use with other flags)')
@@ -75,20 +75,20 @@ program
   .option('--printer',    'check printers and print queue')
   .option('--vpn',        'check VPN connections and tunnel adapters')
   .option('--firewall',   'check firewall status and AV/Defender')
-  .option('--update',     'update pcdoc to the latest version from GitHub')
+  .option('--update',     'update fvpc to the latest version from GitHub')
   .option('--no-welcome', 'skip welcome banner')
   .addHelpText('after', `
 How to use:
-  pcdoc                  open interactive shell (type commands inside)
-  pcdoc --all            run all checks, print summary, exit
-  pcdoc --disk --cpu     run specific checks, exit
-  pcdoc --all --fix      run all + auto-fix, exit
-  pcdoc --windows        check Windows OS health
-  pcdoc --email          check Outlook / email ports
-  pcdoc --smb            check mapped drives & OneDrive
-  pcdoc --adobe          check Adobe CC license & service
-  pcdoc --accounts       check domain, profile, credentials
-  pcdoc --update         update to latest version from GitHub
+  fvpc                  open interactive shell (type commands inside)
+  fvpc --all            run all checks, print summary, exit
+  fvpc --disk --cpu     run specific checks, exit
+  fvpc --all --fix      run all + auto-fix, exit
+  fvpc --windows        check Windows OS health
+  fvpc --email          check Outlook / email ports
+  fvpc --smb            check mapped drives & OneDrive
+  fvpc --adobe          check Adobe CC license & service
+  fvpc --accounts       check domain, profile, credentials
+  fvpc --update         update to latest version from GitHub
 
 Inside the shell:
   check disk / memory / network / cache / processes / cpu / battery / speed

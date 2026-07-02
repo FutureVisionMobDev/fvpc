@@ -1,14 +1,14 @@
 {
-  "name": "pcdoc",
+  "name": "fvpc",
   "version": "1.0.0",
-  "description": "PC Doctor — health check and auto-fix CLI for your machine",
-  "main": "bin/pcdoc.js",
+  "description": "FVPC — Future Vision PC health check and auto-fix CLI",
+  "main": "bin/fvpc.js",
   "bin": {
-    "pcdoc": "bin/pcdoc.js"
+    "fvpc": "bin/fvpc.js"
   },
   "scripts": {
-    "start": "node bin/pcdoc.js",
-    "fix": "node bin/pcdoc.js --fix"
+    "start": "node bin/fvpc.js",
+    "fix": "node bin/fvpc.js --fix"
   },
   "keywords": [
     "cli",
@@ -17,7 +17,8 @@
     "disk",
     "memory",
     "network",
-    "doctor",
+    "fvpc",
+    "future-vision",
     "fix"
   ],
   "author": "FutureVisionMobDev",

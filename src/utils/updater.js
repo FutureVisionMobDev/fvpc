@@ -76,11 +76,11 @@ export function printUpdateNotice(update) {
   console.log(chalk.yellow('  └────────────────────────────────────────────────────┘\n'));
 }
 
-const UPDATE_SOURCE = 'github:FutureVisionMobDev/pcdoc';
+const UPDATE_SOURCE = 'github:FutureVisionMobDev/pcdoc'; // update after GitHub repo rename
 const UPDATE_SOURCE_URL = 'https://github.com/FutureVisionMobDev/pcdoc';
 
 export async function runUpdate() {
-  console.log(chalk.cyan('\n  pcdoc Update\n'));
+  console.log(chalk.cyan('\n  FVPC Update\n'));
 
   const local = getLocalVersion();
   console.log(chalk.dim(`  Installed : v${local}`));
